@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гульсина Гараева — бухгалтерия и налоги на аутсорсе</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#163B4D;
+    --navy-deep:#0E2936;
+    --cream:#F7F5EF;
+    --cream-warm:#F1EDE2;
+    --gold:#C9A96E;
+    --gold-dark:#A5823F;
+    --ink:#24323A;
+    --muted:#5C6B72;
+    --line:rgba(36,50,58,.12);
+    --err:#B4552F;
+    --serif:'Playfair Display',Georgia,serif;
+    --sans:'Inter',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:90px}
+  body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  ::selection{background:rgba(201,169,110,.35)}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+  .container{max-width:1200px;margin:0 auto;padding:0 28px}
+  section{position:relative;padding:clamp(4.5rem,9vw,7.5rem) 0}
+
+  /* ---------- Типографика секций ---------- */
+  .eyebrow{display:inline-flex;align-items:center;gap:.7rem;font-size:.75rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:1.2rem}
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--gold)}
+  .dark-sec .eyebrow{color:var(--gold)}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--navy);line-height:1.12}
+  h2{font-size:clamp(1.9rem,3.6vw,2.9rem);letter-spacing:-.01em}
+  .sec-lead{margin-top:1.1rem;color:var(--muted);max-width:34rem;font-size:1.02rem}
+  .dark-sec h2,.dark-sec h3{color:var(--cream)}
+  .dark-sec .sec-lead{color:rgba(247,245,239,.62)}
+  h1 em,h2 em{font-style:italic;color:var(--gold-dark)}
+  .dark-sec h2 em{color:var(--gold)}
+
+  /* ---------- Кнопки ---------- */
+  .btn{display:inline-flex;align-items:center;gap:.6rem;border:none;border-radius:999px;padding:.95rem 1.8rem;font-weight:600;font-size:.93rem;letter-spacing:.01em;transition:transform .25s ease,box-shadow .25s ease,background .25s ease,color .25s ease;white-space:nowrap}
+  .btn svg{transition:transform .25s ease}
+  .btn:hover svg{transform:translateX(4px)}
+  .btn:active{transform:translateY(0) scale(.98)}
+  .btn-gold{background:var(--gold);color:var(--navy-deep)}
+  .btn-gold:hover{background:#D8BC85;transform:translateY(-2px);box-shadow:0 14px 32px -10px rgba(201,169,110,.55)}
+  .btn-dark{background:var(--navy);color:var(--cream)}
+  .btn-dark:hover{background:var(--navy-deep);transform:translateY(-2px);box-shadow:0 14px 32px -12px rgba(22,59,77,.5)}
+  .btn-lg{padding:1.15rem 2.2rem;font-size:1rem}
+  .btn-sm{padding:.68rem 1.35rem;font-size:.85rem}
+  .btn-block{width:100%;justify-content:center}
+
+  /* ---------- Прогресс скролла ---------- */
+  #progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--gold);z-index:1001;transition:width .1s linear}
+
+  /* ---------- Хедер ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .3s ease,box-shadow .3s ease,border-color .3s ease;border-bottom:1px solid transparent}
+  header.scrolled{background:rgba(247,245,239,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:rgba(22,59,77,.08);box-shadow:0 8px 30px -18px rgba(22,59,77,.25)}
+  .header-in{display:flex;align-items:center;justify-content:space-between;height:78px;transition:height .3s ease}
+  header.scrolled .header-in{height:66px}
+  .logo{display:flex;align-items:center;gap:.75rem}
+  .logo-mark{width:40px;height:40px;flex:none;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:.82rem;font-weight:600;color:var(--navy);letter-spacing:.04em;transition:background .3s ease,color .3s ease}
+  .logo:hover .logo-mark{background:var(--gold);color:var(--navy-deep)}
+  .logo-text{font-family:var(--serif);font-size:1.08rem;font-weight:600;color:var(--navy);line-height:1.2}
+  .logo-text i{font-style:italic;color:var(--gold-dark);font-weight:500}
+  nav.main-nav{display:flex;gap:2.3rem}
+  nav.main-nav a{font-size:.93rem;font-weight:500;color:var(--ink);position:relative;padding:.3rem 0}
+  nav.main-nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--gold);transition:width .3s ease}
+  nav.main-nav a:hover::after{width:100%}
+  .header-cta{display:inline-flex}
+
+  /* Бургер */
+  .burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;background:none;border:none;padding:10px;z-index:1102}
+  .burger span{display:block;height:1.8px;width:100%;background:var(--navy);border-radius:2px;transition:transform .3s ease,opacity .3s ease}
+  .burger.open span:nth-child(1){transform:translateY(6.8px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-6.8px) rotate(-45deg)}
+  .mobile-nav{position:fixed;top:0;left:0;right:0;padding:110px 28px 40px;background:rgba(247,245,239,.97);backdrop-filter:blur(16px);z-index:1100;display:flex;flex-direction:column;gap:.4rem;transform:translateY(-102%);transition:transform .4s cubic-bezier(.22,1,.3,1);border-bottom:1px solid var(--line)}
+  .mobile-nav.open{transform:translateY(0)}
+  .mobile-nav a.m-link{font-family:var(--serif);font-size:1.7rem;color:var(--navy);padding:.55rem 0;border-bottom:1px solid var(--line)}
+  .mobile-nav .btn{margin-top:1.6rem;justify-content:center}
+
+  /* ---------- Герой ---------- */
+  .hero{padding:0;min-height:100svh;display:flex;align-items:center;background:
+    repeating-linear-gradient(to bottom,transparent 0 55px,rgba(22,59,77,.045) 55px 56px),
+    var(--cream);overflow:hidden}
+  .hero::after{content:"₽";position:absolute;right:-4vw;bottom:-10vh;font-family:var(--serif);font-size:56vh;line-height:1;color:rgba(22,59,77,.05);pointer-events:none;user-select:none}
+  .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(2rem,5vw,4.5rem);align-items:center;padding-top:120px;padding-bottom:70px;width:100%}
+  .hero h1{font-size:clamp(2.6rem,5.2vw,4.2rem);letter-spacing:-.015em;line-height:1.05}
+  .hero .lead{margin-top:1.5rem;font-size:1.1rem;color:var(--muted);max-width:33rem;font-weight:400}
+  .hero-actions{display:flex;align-items:center;gap:1.6rem;margin-top:2.4rem;flex-wrap:wrap}
+  .link-arrow{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.93rem;color:var(--navy)}
+  .link-arrow svg{transition:transform .25s ease}
+  .link-arrow:hover svg{transform:translateX(4px)}
+  .link-arrow:hover{color:var(--gold-dark)}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--line);font-size:.85rem;font-weight:500;color:var(--muted)}
+  .hero-meta span{display:inline-flex;align-items:center;gap:.5rem}
+  .hero-meta span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold);flex:none}
+
+  .photo-wrap{position:relative;width:min(430px,76vw);aspect-ratio:1/1;margin-left:auto;margin-right:clamp(0rem,4vw,4rem);transform-style:preserve-3d;transition:transform .5s ease}
+  .photo-glow{position:absolute;inset:-18%;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.4) 0%,rgba(201,169,110,.12) 45%,transparent 70%);filter:blur(18px);animation:pulse 6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+  .photo-frame{position:absolute;inset:0;border-radius:50%;overflow:hidden;box-shadow:0 0 0 1px rgba(201,169,110,.5),0 0 0 12px rgba(201,169,110,.12),0 40px 90px -25px rgba(22,59,77,.45)}
+  .photo-frame img{width:100%;height:100%;object-fit:cover}
+  .orbit{position:absolute;inset:-9.5%;animation:spin 45s linear infinite;pointer-events:none}
+  .orbit text{font-family:var(--sans);font-size:10.6px;font-weight:600;letter-spacing:3.1px;fill:var(--gold-dark)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.orbit,.photo-glow{animation:none}}
+
+  /* ---------- Общие элементы ---------- */
+  .icon-circle{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);color:var(--navy);transition:border-color .3s ease,background .3s ease,color .3s ease,transform .3s ease}
+  .dark-sec .icon-circle{border-color:rgba(201,169,110,.4);color:var(--gold)}
+  .dark-sec .icon-circle svg{stroke:var(--gold)}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.3,1);transition-delay:var(--d,0s)}
+  .reveal.visible{opacity:1;transform:none}
+
+  .ornament{display:flex;align-items:center;gap:14px;margin:0 auto 2.6rem;max-width:260px}
+  .ornament::before,.ornament::after{content:"";flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold))}
+  .ornament::after{background:linear-gradient(to left,transparent,var(--gold))}
+  .ornament i{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex:none}
+
+  /* ---------- Проблемы ---------- */
+  .problems{background:var(--cream)}
+  .problems-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(2.5rem,6vw,6rem);align-items:start}
+  .problems-sticky{position:sticky;top:120px}
+  .mistakes{border-top:1px solid var(--line)}
+  .mistake{display:flex;align-items:center;gap:1.3rem;padding:1.35rem .8rem;border-bottom:1px solid var(--line);transition:background .3s ease,padding .3s ease}
+  .mistake:hover{background:rgba(201,169,110,.09);padding-left:1.2rem}
+  .mistake .icon-circle{width:40px;height:40px}
+  .mistake:hover .icon-circle{border-color:var(--gold);background:var(--gold);color:var(--navy-deep)}
+  .mistake p{font-weight:500;font-size:1.03rem;color:var(--ink)}
+  .mistake .m-num{font-size:.72rem;font-weight:600;letter-spacing:.14em;color:var(--muted);width:26px;flex:none}
+
+  /* ---------- Тёмные секции ---------- */
+  .dark-sec{background:radial-gradient(120% 100% at 85% 0%,#1B4459 0%,#16394B 48%,#112D3C 100%);color:var(--cream)}
+
+  /* ---------- Методика ---------- */
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.2rem}
+  .step{position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(247,245,239,.11);border-radius:18px;padding:1.9rem 1.7rem 1.7rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .35s ease,border-color .35s ease,background .35s ease;overflow:hidden}
+  .step::before{content:"";position:absolute;top:0;left:1.7rem;right:1.7rem;height:1px;background:linear-gradient(to right,var(--gold),transparent);opacity:0;transition:opacity .35s ease}
+  .step:hover{transform:translateY(-7px);border-color:rgba(201,169,110,.55);background:rgba(255,255,255,.085)}
+  .step:hover::before{opacity:1}
+  .step-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem}
+  .step-num{font-family:var(--serif);font-size:2.7rem;line-height:1;color:rgba(201,169,110,.25);-webkit-text-stroke:1px rgba(201,169,110,.85)}
+  .step h3{font-size:1.16rem;margin-bottom:.55rem;letter-spacing:.01em}
+  .step p{font-size:.92rem;color:rgba(247,245,239,.62);line-height:1.6}
+
+  /* ---------- Обо мне ---------- */
+  .about-grid{display:grid;grid-template-columns:7fr 5fr;gap:clamp(2.5rem,6vw,5.5rem);align-items:start}
+  .about-text p{margin-bottom:1.25rem;color:#3A4A52;font-size:1.03rem}
+  .about-text p:first-of-type::first-letter{font-family:var(--serif);font-size:3.6em;float:left;line-height:.82;padding:.08em .12em 0 0;color:var(--gold-dark)}
+  .about-text strong{font-weight:600;color:var(--navy);box-shadow:inset 0 -.45em rgba(201,169,110,.28)}
+  .stats-panel{margin-top:2.2rem;border:1px solid var(--line);border-radius:20px;background:#fff;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+  .stat{padding:1.7rem 1.6rem;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .3s ease}
+  .stat:nth-child(2n){border-right:none}
+  .stat:nth-child(n+3){border-bottom:none}
+  .stat:hover{background:rgba(201,169,110,.08)}
+  .stat .s-check{color:var(--gold-dark);margin-bottom:.8rem}
+  .stat b{display:block;font-family:var(--serif);font-weight:600;font-size:1.55rem;color:var(--navy);line-height:1.15}
+  .stat span{display:block;margin-top:.35rem;font-size:.84rem;color:var(--muted)}
+
+  /* ---------- Услуги ---------- */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.2rem}
+  .service{position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(247,245,239,.11);border-radius:18px;padding:2rem 1.8rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .35s ease,border-color .35s ease,background .35s ease}
+  .service::before{content:"";position:absolute;top:0;left:1.8rem;right:1.8rem;height:1px;background:var(--gold);opacity:0;transition:opacity .35s ease}
+  .service:hover{transform:translateY(-7px);border-color:rgba(201,169,110,.55);background:rgba(255,255,255,.085)}
+  .service:hover::before{opacity:1}
+  .service-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem}
+  .service-no{font-size:.72rem;font-weight:600;letter-spacing:.2em;color:rgba(247,245,239,.4)}
+  .service h3{font-size:1.12rem;letter-spacing:.02em;margin-bottom:.6rem}
+  .service p{font-size:.92rem;color:rgba(247,245,239,.62);line-height:1.6}
+
+  /* ---------- Результаты ---------- */
+  .results{background:var(--cream-warm)}
+  .results-list{display:grid;grid-template-columns:1fr 1fr;gap:0 3.5rem;border-top:1px solid var(--line);margin-top:3rem}
+  .result{display:flex;align-items:center;gap:1.3rem;padding:1.5rem .6rem;border-bottom:1px solid var(--line);transition:background .3s ease,padding .3s ease}
+  .result:hover{background:rgba(201,169,110,.1);padding-left:1.1rem}
+  .result .icon-circle{border-color:rgba(201,169,110,.55);background:rgba(201,169,110,.14);color:var(--gold-dark);width:42px;height:42px}
+  .result:hover .icon-circle{background:var(--gold);border-color:var(--gold);color:var(--navy-deep);transform:scale(1.06)}
+  .result p{font-weight:500;font-size:1.02rem;color:var(--ink)}
+
+  /* ---------- Аудит / форма ---------- */
+  .audit{background:radial-gradient(130% 110% at 15% 100%,#1B4459 0%,#16394B 45%,#0F2937 100%);color:var(--cream);overflow:hidden}
+  .audit::before{content:"₽";position:absolute;left:-3vw;top:-12vh;font-family:var(--serif);font-size:48vh;color:rgba(247,245,239,.04);pointer-events:none;line-height:1}
+  .audit-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,5.5rem);align-items:center;position:relative}
+  .audit h2{font-size:clamp(2.1rem,4vw,3.2rem)}
+  .audit-includes{margin-top:2rem;display:flex;flex-direction:column;gap:.9rem}
+  .audit-includes li{list-style:none;display:flex;align-items:center;gap:.85rem;font-size:.97rem;color:rgba(247,245,239,.8)}
+  .audit-includes .icon-circle{width:34px;height:34px}
+  .audit-card{background:rgba(255,255,255,.05);border:1px solid rgba(201,169,110,.3);border-radius:22px;padding:2.3rem 2.1rem;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 40px 80px -30px rgba(0,0,0,.5)}
+  .audit-card h3{font-size:1.35rem;margin-bottom:.4rem}
+  .audit-card .card-sub{font-size:.9rem;color:rgba(247,245,239,.6);margin-bottom:1.8rem}
+  .field{margin-bottom:1.15rem}
+  .field label{display:block;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(247,245,239,.65);margin-bottom:.5rem}
+  .field input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(247,245,239,.18);border-radius:12px;padding:.95rem 1.1rem;font-family:inherit;font-size:1rem;color:var(--cream);transition:border-color .3s ease,background .3s ease}
+  .field input::placeholder{color:rgba(247,245,239,.35)}
+  .field input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.09)}
+  .field .err{display:none;font-size:.8rem;color:#E8A587;margin-top:.4rem}
+  .field.error input{border-color:var(--err)}
+  .field.error .err{display:block}
+  .form-note{margin-top:1rem;font-size:.78rem;color:rgba(247,245,239,.45);text-align:center;line-height:1.5}
+  .form-success{text-align:center;padding:2rem 0}
+  .form-success[hidden]{display:none}
+  .success-ic{width:66px;height:66px;margin:0 auto 1.4rem;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold)}
+  .form-success h3{font-size:1.5rem;margin-bottom:.6rem}
+  .form-success p{color:rgba(247,245,239,.65);font-size:.95rem}
+
+  /* ---------- Контакты ---------- */
+  .contacts-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(2.5rem,6vw,5.5rem);align-items:center}
+  .contacts-lead{margin-top:1.2rem;color:var(--muted);max-width:26rem}
+  .contacts-cta{margin-top:2.2rem}
+  .contact-list{border-top:1px solid var(--line)}
+  .contact-row{display:flex;align-items:center;gap:1.4rem;padding:1.5rem .8rem;border-bottom:1px solid var(--line);transition:background .3s ease,padding .3s ease}
+  .contact-row:hover{background:rgba(201,169,110,.09);padding-left:1.2rem}
+  .contact-row:hover .icon-circle{border-color:var(--gold);background:var(--gold);color:var(--navy-deep)}
+  .contact-row .c-info{flex:1;min-width:0}
+  .contact-row .c-label{font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .contact-row .c-value{font-weight:600;font-size:1.08rem;color:var(--navy);word-break:break-word}
+  .contact-row .c-arrow{color:var(--muted);transition:transform .3s ease,color .3s ease}
+  .contact-row:hover .c-arrow{transform:translateX(5px);color:var(--gold-dark)}
+
+  /* ---------- Футер ---------- */
+  footer{background:var(--navy-deep);color:rgba(247,245,239,.55);padding:2.2rem 0}
+  .footer-in{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem}
+  .made{display:inline-flex;align-items:center;gap:.45rem}
+  .made svg{fill:var(--gold);animation:beat 2.4s ease-in-out infinite;transform-origin:center}
+  @keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.18)}24%{transform:scale(1)}}
+  .to-top{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;color:rgba(247,245,239,.75);transition:color .3s ease}
+  .to-top:hover{color:var(--gold)}
+
+  /* ---------- Тост ---------- */
+  #toast{position:fixed;bottom:26px;right:26px;z-index:1200;background:var(--navy-deep);color:var(--cream);border:1px solid rgba(201,169,110,.45);border-radius:14px;padding:1rem 1.4rem;display:flex;align-items:center;gap:.8rem;font-size:.92rem;box-shadow:0 20px 50px -15px rgba(0,0,0,.5);transform:translateY(140%);opacity:0;transition:transform .45s cubic-bezier(.22,1,.3,1),opacity .45s ease;max-width:min(360px,calc(100vw - 52px))}
+  #toast.show{transform:translateY(0);opacity:1}
+  #toast .t-ic{color:var(--gold);flex:none}
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width:1080px){
+    .steps-grid,.services-grid{grid-template-columns:1fr 1fr}
+    .hero-grid{grid-template-columns:1fr .9fr}
+  }
+  @media (max-width:900px){
+    nav.main-nav,.header-cta{display:none}
+    .burger{display:flex}
+    .hero-grid{grid-template-columns:1fr;gap:3.2rem;padding-top:130px;padding-bottom:80px}
+    .hero .lead{max-width:100%}
+    .photo-wrap{margin:0 auto;width:min(340px,80vw)}
+    .hero::after{font-size:40vh;right:-12vw}
+    .problems-grid,.about-grid,.audit-grid,.contacts-grid{grid-template-columns:1fr}
+    .problems-sticky{position:static}
+    .results-list{grid-template-columns:1fr;gap:0}
+    .audit-card{padding:1.9rem 1.6rem}
+  }
+  @media (max-width:620px){
+    .container{padding:0 20px}
+    .steps-grid,.services-grid{grid-template-columns:1fr}
+    .stats-panel{grid-template-columns:1fr}
+    .stat{border-right:none!important;border-bottom:1px solid var(--line)!important}
+    .stat:last-child{border-bottom:none!important}
+    .hero-actions .btn{width:100%;justify-content:center}
+    .mistake{gap:.9rem;padding:1.15rem .3rem}
+    .mistake .m-num{display:none}
+    .footer-in{justify-content:center;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ШАПКА -->
+<header id="header">
+  <div class="container header-in">
+    <a href="#hero" class="logo" aria-label="Гульсина Гараева — на главную">
+      <span class="logo-mark">ГГ</span>
+      <span class="logo-text">Гульсина <i>Гараева</i></span>
+    </a>
+    <nav class="main-nav">
+      <a href="#services">Услуги</a>
+      <a href="#about">Обо мне</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a href="#audit" class="btn btn-gold btn-sm header-cta">Бесплатный аудит</a>
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#services" class="m-link">Услуги</a>
+  <a href="#about" class="m-link">Обо мне</a>
+  <a href="#contacts" class="m-link">Контакты</a>
+  <a href="#audit" class="btn btn-gold">Бесплатный аудит</a>
+</div>
+
+<!-- ГЕРОЙ -->
+<section class="hero" id="hero">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <div class="eyebrow reveal">Бухгалтерия на аутсорсе</div>
+      <h1 class="reveal" style="--d:.08s">Финансовый порядок <em>без ежедневной рутины</em></h1>
+      <p class="lead reveal" style="--d:.16s">Веду малый и средний бизнес на аутсорсе. 18 лет опыта, все системы налогообложения. Избавлю вас от головной боли с отчётностью и налогами.</p>
+      <div class="hero-actions reveal" style="--d:.24s">
+        <a href="#audit" class="btn btn-dark btn-lg">Получить разбор бизнеса
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15"/><path d="M13.5 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#services" class="link-arrow">Посмотреть услуги
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15"/><path d="M13.5 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="hero-meta reveal" style="--d:.32s">
+        <span>18+ лет опыта</span>
+        <span>ОСНО и УСН</span>
+        <span>20 млн ₽ возвращённого НДС</span>
+      </div>
+    </div>
+    <div class="hero-photo reveal" style="--d:.2s">
+      <div class="photo-wrap" id="photoWrap">
+        <div class="photo-glow"></div>
+        <svg class="orbit" viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="orbitPath" d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0"/></defs>
+          <text><textPath href="#orbitPath">БУХГАЛТЕРИЯ · НАЛОГИ · ОТЧЁТНОСТЬ · ПОРЯДОК ·</textPath></text>
+        </svg>
+        <div class="photo-frame">
+          <img src="https://picsum.photos/seed/gulsina-garaeva/640/640.jpg" alt="Гульсина Гараева — бухгалтер">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПОЧЕМУ УЧЁТ НЕ ПРИНОСИТ ПОЛЬЗЫ -->
+<section class="problems" id="problems">
+  <div class="container problems-grid">
+    <div class="problems-sticky">
+      <div class="eyebrow reveal">Диагностика</div>
+      <h2 class="reveal" style="--d:.08s">Почему учёт <em>не приносит пользы?</em></h2>
+      <p class="sec-lead reveal" style="--d:.16s">Шесть типичных ошибок, которые я нахожу почти в каждом бизнесе. Каждая из них стоит вам денег, времени или нервов.</p>
+    </div>
+    <div class="mistakes">
+      <div class="mistake reveal">
+        <span class="m-num">01</span>
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></span>
+        <p>Хаотичное ведение без системного подхода</p>
+      </div>
+      <div class="mistake reveal" style="--d:.06s">
+        <span class="m-num">02</span>
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></span>
+        <p>Потеря времени на рутину вместо анализа</p>
+      </div>
+      <div class="mistake reveal" style="--d:.12s">
+        <span class="m-num">03</span>
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></span>
+        <p>Игнорирование налоговых рисков и штрафов</p>
+      </div>
+      <div class="mistake reveal" style="--d:.18s">
+        <span class="m-num">04</span>
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></span>
+        <p>Точечные исправления вместо настройки всего процесса</p>
+      </div>
+      <div class="mistake reveal" style="--d:.24s">
+        <span class="m-num">05</span>
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></span>
+        <p>Отсутствие взаимодействия с руководителем</p>
+      </div>
+      <div class="mistake reveal" style="--d:.3s">
+        <span class="m-num">06</span>
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></span>
+        <p>Нет понятных KPI и финансовых прогнозов</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- МЕТОДИКА 6 ШАГОВ -->
+<section class="dark-sec" id="method">
+  <div class="container">
+    <div class="eyebrow reveal">Методика</div>
+    <h2 class="reveal" style="--d:.08s">6 шагов <em>к порядку в учёте</em></h2>
+    <p class="sec-lead reveal" style="--d:.16s">Проверенная последовательность, которая превращает учёт из источника проблем в инструмент управления.</p>
+
+    <div class="steps-grid">
+      <article class="step reveal">
+        <div class="step-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3"/><path d="M13 3l4 4v3"/><path d="M13 3v4h4"/><circle cx="15.5" cy="15.5" r="3.5"/><path d="M18 18l3 3"/></svg></span>
+          <span class="step-num">01</span>
+        </div>
+        <h3>Аудит</h3>
+        <p>Анализ текущего учёта, поиск ошибок и точек роста</p>
+      </article>
+      <article class="step reveal" style="--d:.08s">
+        <div class="step-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.8V11c0 4.6-3 8.6-7 10-4-1.4-7-5.4-7-10V5.8L12 3z"/><path d="M9 11.6l2.1 2.1 4.3-4.7"/></svg></span>
+          <span class="step-num">02</span>
+        </div>
+        <h3>Налоговая безопасность</h3>
+        <p>Оценка рисков, оптимизация налогов легально</p>
+      </article>
+      <article class="step reveal" style="--d:.16s">
+        <div class="step-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M4 6h9"/><path d="M17 6h3"/><path d="M4 12h3"/><path d="M11 12h9"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>
+          <span class="step-num">03</span>
+        </div>
+        <h3>Подбор инструментов</h3>
+        <p>Выбор учётных систем и сервисов под ваши задачи</p>
+      </article>
+      <article class="step reveal" style="--d:.08s">
+        <div class="step-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 3v4.5h-4.5"/></svg></span>
+          <span class="step-num">04</span>
+        </div>
+        <h3>Настройка процессов</h3>
+        <p>Внедрение регламентов, автоматизация рутины</p>
+      </article>
+      <article class="step reveal" style="--d:.16s">
+        <div class="step-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10.4 5 8 4.2 4 4.2v14.6c4 0 6.4.8 8 2.2 1.6-1.4 4-2.2 8-2.2V4.2c-4 0-6.4.8-8 2.3z"/><path d="M12 6.5V21"/></svg></span>
+          <span class="step-num">05</span>
+        </div>
+        <h3>Обучение команды</h3>
+        <p>Разбираем, как работать с документами и отчётами</p>
+      </article>
+      <article class="step reveal" style="--d:.24s">
+        <div class="step-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5h17"/><path d="M5 16.5l4.5-4.5 3 3L18 9"/><path d="M13.8 9H18v4.2"/></svg></span>
+          <span class="step-num">06</span>
+        </div>
+        <h3>Масштабирование</h3>
+        <p>Тиражируем решения, готовим к росту бизнеса</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ОБО МНЕ -->
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-text">
+      <div class="eyebrow reveal">Обо мне</div>
+      <h2 class="reveal" style="--d:.06s">Бухгалтер, которому <em>доверяют главное</em></h2>
+      <div style="margin-top:1.8rem">
+        <p class="reveal" style="--d:.12s">Меня зовут <strong>Гульсина Гараева</strong>. Я бухгалтер и специалист по ведению бухгалтерского и налогового учёта с опытом работы <strong>более 18 лет</strong>. За годы работы я вела бухгалтерию разных организаций — от первичной документации и банковских операций до расчёта налогов, заработной платы и сдачи отчётности.</p>
+        <p class="reveal" style="--d:.18s">Работала с несколькими юридическими лицами одновременно, в том числе на ОСНО и УСН. Мне приходилось не только вести учёт «с нуля», но и <strong>восстанавливать запущенную бухгалтерию, исправлять ошибки и готовить компании к проверкам</strong>. В одном из проектов восстановление учёта за два года позволило вернуть компании около <strong>20 млн рублей НДС</strong>.</p>
+      </div>
+    </div>
+    <div>
+      <div class="stats-panel reveal" style="--d:.14s">
+        <div class="stat">
+          <div class="s-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <b><span data-count="18">0</span>+ лет</b>
+          <span>профессионального опыта</span>
+        </div>
+        <div class="stat">
+          <div class="s-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <b>Несколько организаций</b>
+          <span>одновременно в ведении</span>
+        </div>
+        <div class="stat">
+          <div class="s-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <b>ОСНО и УСН</b>
+          <span>практический опыт</span>
+        </div>
+        <div class="stat">
+          <div class="s-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <b><span data-count="20">0</span> млн ₽</b>
+          <span>возвращено НДС в одном из проектов</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- УСЛУГИ -->
+<section class="dark-sec" id="services">
+  <div class="container">
+    <div class="eyebrow reveal">Услуги</div>
+    <h2 class="reveal" style="--d:.08s">Шесть форматов <em>работы</em></h2>
+    <p class="sec-lead reveal" style="--d:.16s">Беру на себя только тот объём задач, который нужен именно вашему бизнесу.</p>
+
+    <div class="services-grid">
+      <article class="service reveal">
+        <div class="service-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5"/><path d="M9.5 12.5h5"/></svg></span>
+          <span class="service-no">01</span>
+        </div>
+        <h3>Бухгалтерия под ключ</h3>
+        <p>Полностью беру бухгалтерский учёт вашей организации на себя.</p>
+      </article>
+      <article class="service reveal" style="--d:.08s">
+        <div class="service-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5L13.5 3z"/><path d="M13.5 3v5.5H19"/><path d="M9 14.5l2.2 2.2 4-4.4"/></svg></span>
+          <span class="service-no">02</span>
+        </div>
+        <h3>Налоги и отчётность</h3>
+        <p>Расчёт налогов, подготовка и сдача отчётности в установленные сроки.</p>
+      </article>
+      <article class="service reveal" style="--d:.16s">
+        <div class="service-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 3.5V8H9"/><path d="M12 8.5V12l2.8 1.8"/></svg></span>
+          <span class="service-no">03</span>
+        </div>
+        <h3>Восстановление учёта</h3>
+        <p>Исправлю ошибки и приведу в порядок даже запущенный учёт.</p>
+      </article>
+      <article class="service reveal" style="--d:.08s">
+        <div class="service-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 7.5H6a2 2 0 0 1 0-4h11.5v4"/><path d="M4 5.5V18a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V8.5a1 1 0 0 0-1-1"/><circle cx="16.5" cy="14.5" r="1.1"/></svg></span>
+          <span class="service-no">04</span>
+        </div>
+        <h3>Зарплата и кадры</h3>
+        <p>Расчёт зарплаты и ведение необходимых кадровых документов.</p>
+      </article>
+      <article class="service reveal" style="--d:.16s">
+        <div class="service-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M8.3 11l1.9 1.9 3.5-3.8"/><path d="M16.3 16.3L21 21"/></svg></span>
+          <span class="service-no">05</span>
+        </div>
+        <h3>Подготовка к проверкам</h3>
+        <p>Проверю учёт и документы, помогу подготовиться к аудиторской или налоговой проверке.</p>
+      </article>
+      <article class="service reveal" style="--d:.24s">
+        <div class="service-top">
+          <span class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5h17"/><path d="M7 17v-4"/><path d="M12 17V8"/><path d="M17 17v-7"/></svg></span>
+          <span class="service-no">06</span>
+        </div>
+        <h3>Управленческий учёт</h3>
+        <p>БДР, БДДС, Cash Flow и отчёты, которые помогают руководителю принимать решения.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- РЕЗУЛЬТАТЫ -->
+<section class="results" id="results">
+  <div class="container">
+    <div class="ornament reveal"><i></i></div>
+    <div style="text-align:center;max-width:44rem;margin:0 auto">
+      <div class="eyebrow reveal" style="justify-content:center">Результаты</div>
+      <h2 class="reveal" style="--d:.08s">Что меняется, когда <em>учёт настроен</em></h2>
+    </div>
+    <div class="results-list">
+      <div class="result reveal">
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <p>Освобождение времени руководителя от рутины</p>
+      </div>
+      <div class="result reveal" style="--d:.06s">
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <p>Сокращение ошибок в отчётности</p>
+      </div>
+      <div class="result reveal" style="--d:.12s">
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <p>Безопасная налоговая оптимизация</p>
+      </div>
+      <div class="result reveal" style="--d:.18s">
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <p>Автоматизация документооборота</p>
+      </div>
+      <div class="result reveal" style="--d:.24s">
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <p>Обучение сотрудников работе с учётными системами</p>
+      </div>
+      <div class="result reveal" style="--d:.3s">
+        <span class="icon-circle"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <p>Рост прибыли за счёт финансового контроля</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- БЕСПЛАТНЫЙ АУДИТ -->
+<section class="audit" id="audit">
+  <div class="container audit-grid">
+    <div>
+      <div class="eyebrow reveal">Специальное предложение</div>
+      <h2 class="reveal" style="--d:.08s">Бесплатный <em>аудит</em></h2>
+      <p class="sec-lead reveal" style="--d:.16s">Проверю ваш текущий учёт на ошибки, риски и точки экономии. Без обязательств и воды.</p>
+      <ul class="audit-includes">
+        <li class="reveal" style="--d:.22s">
+          <span class="icon-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          Разбор текущего состояния учёта
+        </li>
+        <li class="reveal" style="--d:.28s">
+          <span class="icon-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          Оценка налоговых рисков
+        </li>
+        <li class="reveal" style="--d:.34s">
+          <span class="icon-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          Точки экономии и рекомендации
+        </li>
+      </ul>
+    </div>
+    <div class="audit-card reveal" style="--d:.15s">
+      <form id="auditForm" novalidate>
+        <h3>Записаться на аудит</h3>
+        <p class="card-sub">Оставьте контакты — свяжусь с вами в течение рабочего дня.</p>
+        <div class="field" id="fieldName">
+          <label for="af-name">Ваше имя</label>
+          <input type="text" id="af-name" name="name" placeholder="Как к вам обращаться" autocomplete="name">
+          <span class="err">Пожалуйста, укажите имя</span>
+        </div>
+        <div class="field" id="fieldPhone">
+          <label for="af-phone">Телефон</label>
+          <input type="tel" id="af-phone" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+          <span class="err">Укажите корректный номер телефона</span>
+        </div>
+        <button type="submit" class="btn btn-gold btn-lg btn-block" id="submitBtn">
+          <span>Записаться на аудит</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15"/><path d="M13.5 6l6 6-6 6"/></svg>
+        </button>
+        <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных. Никакого спама.</p>
+      </form>
+      <div class="form-success" id="formSuccess" hidden>
+        <div class="success-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h3>Заявка отправлена</h3>
+        <p>Спасибо за доверие! Свяжусь с вами в ближайшее время,<br>чтобы договориться о бесплатном аудите.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КОНТАКТЫ -->
+<section id="contacts">
+  <div class="container contacts-grid">
+    <div>
+      <div class="eyebrow reveal">Контакты</div>
+      <h2 class="reveal" style="--d:.08s">Обсудим <em>ваш учёт?</em></h2>
+      <p class="contacts-lead reveal" style="--d:.16s">Напишите или позвоните — отвечу лично и подскажу, с чего лучше начать именно в вашей ситуации.</p>
+      <div class="contacts-cta reveal" style="--d:.24s">
+        <a href="#audit" class="btn btn-dark btn-lg">Записаться на консультацию
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15"/><path d="M13.5 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="contact-list">
+      <a href="https://t.me/GGulsinaR" target="_blank" rel="noopener" class="contact-row reveal">
+        <span class="icon-circle"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10.5 13.5"/><path d="M21 3l-6.8 18-3.7-7.5L3 9.8 21 3z"/></svg></span>
+        <span class="c-info">
+          <span class="c-label">Telegram</span>
+          <span class="c-value">@GGulsinaR</span>
+        </span>
+        <span class="c-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15"/><path d="M13.5 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="mailto:vip.buhgalter2016@mail.ru" class="contact-row reveal" style="--d:.08s">
+        <span class="icon-circle"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></span>
+        <span class="c-info">
+          <span class="c-label">Email</span>
+          <span class="c-value">vip.buhgalter2016@mail.ru</span>
+        </span>
+        <span class="c-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15"/><path d="M13.5 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="tel:+79173919073" class="contact-row reveal" style="--d:.16s">
+        <span class="icon-circle"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l1.5 4.5-2.2 1.6a12 12 0 0 0 5.6 5.6l1.6-2.2L20 15v4a1.5 1.5 0 0 1-1.7 1.5C10.6 19.7 4.3 13.4 3.5 5.7A1.5 1.5 0 0 1 5 4z"/></svg></span>
+        <span class="c-info">
+          <span class="c-label">Телефон</span>
+          <span class="c-value">+7 (917) 391-90-73</span>
+        </span>
+        <span class="c-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15"/><path d="M13.5 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ФУТЕР -->
+<footer>
+  <div class="container footer-in">
+    <div>2026 Гульсина Гараева. Все права защищены.</div>
+    <div class="made">Сделано с
+      <svg width="15" height="15" viewBox="0 0 24 24" aria-label="любовью"><path d="M12 20.8C7.2 17 3 13.6 3 9.6 3 7 5 5 7.4 5c1.8 0 3.4 1 4.6 2.7C13.2 6 14.8 5 16.6 5 19 5 21 7 21 9.6c0 4-4.2 7.4-9 11.2z"/></svg>
+    </div>
+    <a href="#hero" class="to-top">Наверх
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.5v-15"/><path d="M6 10.5l6-6 6 6"/></svg>
+    </a>
+  </div>
+</footer>
+
+<div id="toast" role="status">
+  <span class="t-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+  <span id="toastMsg">Заявка отправлена</span>
+</div>
+
+<script>
+  // ---------- Хедер при скролле + прогресс-бар ----------
+  const header = document.getElementById('header');
+  const progress = document.getElementById('progress');
+  function onScroll(){
+    const y = window.scrollY;
+    header.classList.toggle('scrolled', y > 30);
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // ---------- Бургер-меню ----------
+  const burger = document.getElementById('burger');
+  const mobileNav = document.getElementById('mobileNav');
+  function closeMenu(){
+    burger.classList.remove('open');
+    mobileNav.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
+
+  // ---------- Появление элементов при скролле ----------
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if(en.isIntersecting){
+        en.target.classList.add('visible');
+        io.unobserve(en.target);
+      }
+    });
+  }, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ---------- Анимация чисел ----------
+  const counterIO = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if(!en.isIntersecting) return;
+      const el = en.target;
+      counterIO.unobserve(el);
+      const target = parseInt(el.dataset.count, 10);
+      const dur = 1400, start = performance.now();
+      function tick(now){
+        const t = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(target * eased);
+        if(t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }, {threshold: 0.5});
+  document.querySelectorAll('[data-count]').forEach(el => counterIO.observe(el));
+
+  // ---------- Лёгкий tilt фото ----------
+  const wrap = document.getElementById('photoWrap');
+  if(wrap && window.matchMedia('(hover:hover)').matches){
+    wrap.addEventListener('mousemove', e => {
+      const r = wrap.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      wrap.style.transition = 'transform .15s ease';
+      wrap.style.transform = `perspective(900px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
+    });
+    wrap.addEventListener('mouseleave', () => {
+      wrap.style.transition = 'transform .6s ease';
+      wrap.style.transform = 'perspective(900px) rotateY(0) rotateX(0)';
+    });
+  }
+
+  // ---------- Тост ----------
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+  let toastTimer;
+  function showToast(msg){
+    toastMsg.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
+  }
+
+  // ---------- Форма ----------
+  const form = document.getElementById('auditForm');
+  const fieldName = document.getElementById('fieldName');
+  const fieldPhone = document.getElementById('fieldPhone');
+  const nameInput = document.getElementById('af-name');
+  const phoneInput = document.getElementById('af-phone');
+  const submitBtn = document.getElementById('submitBtn');
+  const success = document.getElementById('formSuccess');
+
+  [nameInput, phoneInput].forEach(inp =>
+    inp.addEventListener('input', () => inp.closest('.field').classList.remove('error'))
+  );
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    let ok = true;
+    if(nameInput.value.trim().length < 2){
+      fieldName.classList.add('error'); ok = false;
+    }
+    if(phoneInput.value.replace(/\D/g,'').length < 10){
+      fieldPhone.classList.add('error'); ok = false;
+    }
+    if(!ok){
+      const firstErr = form.querySelector('.field.error input');
+      if(firstErr) firstErr.focus();
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '.7';
+    submitBtn.querySelector('span').textContent = 'Отправляем…';
+    setTimeout(() => {
+      form.hidden = true;
+      success.hidden = false;
+      showToast('Заявка отправлена — свяжусь с вами в течение дня');
+    }, 1200);
+  });
+</script>
+
+</body>
+</html>
